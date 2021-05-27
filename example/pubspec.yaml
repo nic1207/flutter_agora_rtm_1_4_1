@@ -15,7 +15,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  agora_rtm:
+  agora_rtm_nic:
     path: ../
 
 flutter:
