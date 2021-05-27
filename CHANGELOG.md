@@ -1,5 +1,8 @@
 # Change log
 
+## 0.0.5
+* fix pop install error
+
 ## 0.0.4
 * add new api
 

@@ -1,6 +1,6 @@
 name: agora_rtm_nic
 description: Flutter plugin for Agora RTM SDK. 1.4.1
-version: 0.0.4
+version: 0.0.5
 homepage: https://www.agora.io
 repository: https://github.com/nic1207/flutter_agora_rtm_1_4_1/
 
