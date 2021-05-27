@@ -300,6 +300,73 @@ class AgoraRtmPlugin: MethodCallHandler {
                 }
         )
       }
+      "sendImageMessageToPeer" -> {
+        var peerId: String? = args?.get("peerId") as String
+        //var filename = args.get("file") as String
+        var text = args.get("message") as String
+        /*
+        rtmClient.createImageMessageByUploading(file, RtmRequestId(), object : ResultCallback<RtmImageMessage> {
+          override fun onSuccess(rtmImageMessage: RtmImageMessage) {
+            val width = rtmImageMessage.width / 5
+            val height = rtmImageMessage.width / 5
+            rtmImageMessage.thumbnail = preloadImage(context, file, width, height)
+            rtmImageMessage.thumbnailWidth = width
+            rtmImageMessage.thumbnailHeight = height
+            resultCallback.onSuccess(rtmImageMessage)
+          }
+
+          override fun onFailure(errorInfo: ErrorInfo) {
+            resultCallback.onFailure(errorInfo)
+          }
+        })
+        rtmClient.createImageMessageByUploading(file, new RtmRequestId(), new ResultCallback<RtmImageMessage>() {
+            @Override
+            public void onSuccess(final RtmImageMessage rtmImageMessage) {
+                int width = rtmImageMessage.getWidth() / 5;
+                int height = rtmImageMessage.getWidth() / 5;
+                rtmImageMessage.setThumbnail(ImageUtil.preloadImage(context, file, width, height));
+                rtmImageMessage.setThumbnailWidth(width);
+                rtmImageMessage.setThumbnailHeight(height);
+
+                resultCallback.onSuccess(rtmImageMessage);
+            }
+
+            @Override
+            public void onFailure(ErrorInfo errorInfo) {
+                resultCallback.onFailure(errorInfo);
+            }
+        });
+         */
+        //val message = client.createImageMessageByUploading(filename, new RtmRequestId())
+        val message = client.createMessage()
+        message.text = text
+        val options = SendMessageOptions().apply {
+          (args["historical"] as? Boolean)?.let {
+            enableHistoricalMessaging = it
+          }
+          (args["offline"] as? Boolean)?.let {
+            enableOfflineMessaging = it
+          }
+        }
+        client.sendMessageToPeer(peerId,
+                message,
+                options,
+                object : ResultCallback<Void> {
+                  override fun onSuccess(resp: Void?) {
+                    runMainThread {
+                      result.success(hashMapOf(
+                              "errorCode" to 0
+                      ))
+                    }
+                  }
+                  override fun onFailure(code: ErrorInfo) {
+                    runMainThread {
+                      result.success(hashMapOf("errorCode" to code.getErrorCode()))
+                    }
+                  }
+                }
+        )
+      }
       "setLocalUserAttributes" -> {
         val attributes: List<Map<String, String>>? = args?.get("attributes") as List<Map<String, String>>
         var localUserAttributes = ArrayList<RtmAttribute>()

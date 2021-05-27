@@ -314,6 +314,21 @@ class AgoraRtmClient {
           res['errorCode']);
   }
 
+  /// Allows a user to send a peer-to-peer message to a specific peer user.
+  Future<void> sendImageMessageToPeer(String peerId, AgoraRtmMessage message,
+      [bool offline, bool historical]) async {
+    final res = await _callNative("sendImageMessageToPeer", {
+      "peerId": peerId,
+      "file": message.text,
+      "offline": offline,
+      "historical": historical
+    });
+    if (res["errorCode"] != 0)
+      throw AgoraRtmClientException(
+          "sendMessageToPeer failed errorCode:${res['errorCode']}",
+          res['errorCode']);
+  }
+
   /// Substitutes the local user’s attributes with new ones.
   Future<void> setLocalUserAttributes(
       List<Map<String, String>> attributes) async {
